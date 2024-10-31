@@ -1,10 +1,54 @@
-function generateJoke() {
-  const jokeApiUrl = `https://official-joke-api.appspot.com/random_joke`;
+const jokeApiUrl = `https://official-joke-api.appspot.com/random_joke`;
 
+function generateJoke() {
+  const jokeType = document.getElementById("jokeType-select").value;
+
+  if (jokeType === 'general') {
+    fetchGeneralJoke();
+  } else if (jokeType === 'programming') {
+    fetchProgrammingJoke();
+  } else {
+    fetchAnyJoke();
+  }
+}
+
+function fetchGeneralJoke() {
   fetch (jokeApiUrl) 
     .then(response => response.json())
     .then(data => {
-      displayjoke(data);
+      if (data.type === 'general') {
+        displayJoke(data);
+      } else {
+        fetchGeneralJoke();
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching joke.');
+      alert('Error fetching joke.');
+    })
+}
+
+function fetchProgrammingJoke() {
+  fetch (jokeApiUrl) 
+    .then(response => response.json())
+    .then(data => {
+      if (data.type === 'programming') {
+        displayJoke(data);
+      } else {
+        fetchProgrammingJoke();
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching joke.');
+      alert('Error fetching joke.');
+    })
+}
+
+function fetchAnyJoke() {
+  fetch (jokeApiUrl) 
+    .then(response => response.json())
+    .then(data => {
+      displayJoke(data);
     })
     .catch(error => {
       console.error('Error fetching joke.');
